@@ -139,8 +139,10 @@ export class TimelineComponent {
   toggleItem(item){
     if(item.itemExpand){
       item.itemExpand = false;
+      return false;
     } else {
       item.itemExpand = true;
+      return true;
     }
   }
 }
