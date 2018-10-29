@@ -47,5 +47,13 @@ describe("Timeline component", () => {
     expect(test).toEqual(component.toggleItem(item)); // Since item is being toggled from false to true, value should equal true
   });
 
+   /**
+   * Test that the list gets created when page is rendered
+   */
+  test("Check to see if list gets created", () => {
+    expect.assertions(1); // Number of tests that need to pass
+
+    expect(component.list.length).toBeGreaterThan(0); // Test if list gets created
+  });
 
 });
