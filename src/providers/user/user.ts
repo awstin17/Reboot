@@ -33,7 +33,7 @@ export class UserProvider {
   }
 
   logoutUser(token:any) {
-    console.log('onservice-logout')
+    console.log('onservice-logout', token)
     return this.http.post(this.requestUrl + "/appUsers/logout", token )
   }
   

@@ -23,10 +23,10 @@ export class ProfilePage {
   }
 
   onLogout() {
-    this.user.logoutUser(window.sessionStorage.getItem('token'))
+    this.user.logoutUser(sessionStorage.getItem('token'))
       .subscribe( response => {
         console.log('onsubscibe-logout')
-        window.sessionStorage.clear()
+        sessionStorage.clear()
       })
   }
 
