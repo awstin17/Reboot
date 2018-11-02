@@ -23,9 +23,9 @@ export class UserProvider {
     return this.http.post(this.requestUrl + '/appUsers', user)
   }
   //update data from wizard page and patch user model
-  updateUserModel(data: any, id) {
+  updateUserModel(data: any, id: string, token: string) {
     console.log(data, "#1-updateUserModel") 
-    return this.http.patch(this.requestUrl + '/appUsers/' + id , data)
+    return this.http.patch(this.requestUrl + '/appUsers/' + id + '?access_token=' + token, data)
   }
 
   login(creds) {
@@ -34,7 +34,7 @@ export class UserProvider {
 
   logoutUser(token:any) {
     console.log('onservice-logout', token)
-    return this.http.post(this.requestUrl + "/appUsers/logout", token )
+    return this.http.post(this.requestUrl + "/appUsers/logout?access_token=" + token,  token )
   }
   
   getUser(id) {

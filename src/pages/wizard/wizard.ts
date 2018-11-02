@@ -252,7 +252,7 @@ export class WizardPage {
       MOS: this.thirdForm.value.MOS
     }
     console.log(userData, this.LockSwipeToPrev)
-    this.user.updateUserModel(userData,sessionStorage.getItem('userId'))
+    this.user.updateUserModel(userData,sessionStorage.getItem('userId'), sessionStorage.getItem('token'))
       .subscribe( 
         (data) => {
           console.log(data, "YEY!!!!!!")
