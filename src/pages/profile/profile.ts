@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { UserProvider } from '../../providers/user/user';
+import { LoginPage } from '../login/login';
 
 /**
  * Generated class for the ProfilePage page.
@@ -23,11 +24,8 @@ export class ProfilePage {
   }
 
   onLogout() {
-    this.user.logoutUser(window.sessionStorage.getItem('token'))
-      .subscribe( response => {
-        console.log('onsubscibe-logout')
-        window.sessionStorage.clear()
-      })
+    window.sessionStorage.clear();
+    this.navCtrl.setRoot(LoginPage)
   }
 
 }
