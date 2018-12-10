@@ -106,7 +106,7 @@ export class TransitionPage {
   }
 
   changeData(categoryIndex, newNumber) {
-    this.chartProvider.assessmentChartData[categoryIndex] = newNumber;
+    this.chartProvider.postChart.data[categoryIndex] = newNumber;
     this.chartComponent.chart.update();
   }
 
@@ -118,5 +118,17 @@ export class TransitionPage {
     });
 
     toast.present();
+  }
+
+  saveChart() {
+    this.chartProvider.saveChartToProfile()
+      .subscribe(
+        (res) => {console.log(res, "success")
+        this.chartProvider.mostRecentChart = this.chartProvider.postChart.data;
+        this.chartProvider.chartHistory.unshift(this.chartProvider.postChart);
+        alert("Successfully saved to your account")
+      },
+        (err) => console.log(err, "failure")
+      )
   }
 }

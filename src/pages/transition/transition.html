@@ -9,7 +9,7 @@
 
 
 <ion-content padding>
-  <chart [pageData] = "chartProvider.assessmentChartData"></chart>
+  <chart [pageData] = "chartProvider.postChart.data"></chart>
   <ion-list>
     <ion-card *ngFor="let area of areas; let i = index">
       <ion-card-header>
@@ -33,5 +33,7 @@
       </ion-card-content>
     </ion-card>
   </ion-list>
-
+  <div style="width: 100%">
+  <button ion-button button-primary (click)="saveChart()" style="width: 50%; margin: auto; display: block; font-size: 2rem">Save This Chart To Your Profile</button>
+</div>
 </ion-content>
