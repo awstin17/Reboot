@@ -97,6 +97,9 @@ export class LoginPage {
         this.chartProvider.chartHistory = res;
         this.chartProvider.chartHistory.reverse(); // Reversing orders array from most recent to least recent chart data
         this.chartProvider.mostRecentChart = this.chartProvider.chartHistory[0].data;
+        for(let i = 0; i < this.chartProvider.chartHistory.length; i++) {
+          this.chartProvider.chartHistory[i].date = new Date(this.chartProvider.chartHistory[i].date).toDateString();
+        }
         this.toDashboard();
       },
         (err) => console.log(err)
