@@ -17,26 +17,26 @@ export class DashboardPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public chartProvider: ChartProvider, private toastCtrl: ToastController, private storage: Storage, public user: UserProvider) { }
 
-  ionViewWillLoad() {
-    this.storage.get('userInfo').then((val) => {
-      this.name = val ? `${val.firstName} ${val.lastName}` : '';
-    })
-    this.storage.get('chartData').then((val) => {
-      this.date = val ? val.Date : '';
-    }).then(() => this.lastDate())
-  }
+  // ionViewWillLoad() {
+  //   this.storage.get('userInfo').then((val) => {
+  //     this.name = val ? `${val.firstName} ${val.lastName}` : '';
+  //   })
+  //   this.storage.get('chartData').then((val) => {
+  //     this.date = val ? val.Date : '';
+  //   }).then(() => this.lastDate())
+  // }
 
   toTimeline() {
     this.navCtrl.setRoot(TimelinePage);
   }
 
-  lastDate() {
-    let toast = this.toastCtrl.create({
-      message: `Your last assessment was ${this.date}`,
-      duration: 2500,
-      position: 'middle'
-    });
+  // lastDate() {
+  //   let toast = this.toastCtrl.create({
+  //     message: `Your last assessment was ${this.date}`,
+  //     duration: 2500,
+  //     position: 'middle'
+  //   });
 
-    toast.present();
-  }
+  //   toast.present();
+  // }
 }

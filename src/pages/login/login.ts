@@ -112,13 +112,11 @@ export class LoginPage {
     let toast = this.toastCtrl.create({
       message: "Login successful!",
       duration: 2500,
-      position: 'middle'
-    });
-  
-    toast.onDidDismiss(() => {
-      this.navCtrl.setRoot(DashboardPage)
+      position: 'middle',
+      cssClass: 'toasts'
     });
   
     toast.present();
+    this.navCtrl.setRoot(DashboardPage)
   }
 }
