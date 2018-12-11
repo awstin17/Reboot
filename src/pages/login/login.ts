@@ -73,7 +73,7 @@ export class LoginPage {
           this.loginResponse = res;
           sessionStorage.setItem('userId', this.loginResponse.userId)
           sessionStorage.setItem('token', this.loginResponse.id);
-          alert("you're logged in!")
+          // alert("you're logged in!")
           this.getChartData();
         },
         (err) => {

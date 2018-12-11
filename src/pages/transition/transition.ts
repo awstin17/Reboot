@@ -89,12 +89,12 @@ export class TransitionPage {
 
   }
 
-  ionViewWillLoad() {
-    this.storage.get('chartData').then((val) => {
-      this.date = val ? val.Date : '';
-      // console.log('this.date:', this.date, 'val.Date:', val.Date)
-    }).then(() => this.lastDate())
-  }
+  // ionViewWillLoad() {
+  //   this.storage.get('chartData').then((val) => {
+  //     this.date = val ? val.Date : '';
+  //     // console.log('this.date:', this.date, 'val.Date:', val.Date)
+  //   }).then(() => this.lastDate())
+  // }
 
   toggleSection(area) {
     console.log(area);
