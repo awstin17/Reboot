@@ -4,7 +4,7 @@ import { HistoryPage } from './history';
 
 @NgModule({
   declarations: [
-    HistoryPage,
+    
   ],
   imports: [
     IonicPageModule.forChild(HistoryPage),

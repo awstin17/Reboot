@@ -3,6 +3,6 @@ import { TimelineComponent } from './timeline/timeline';
 @NgModule({
 	declarations: [],
 	imports: [],
-	exports: [TimelineComponent]
+	exports: []
 })
 export class ComponentsModule {}
