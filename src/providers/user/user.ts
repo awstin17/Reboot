@@ -13,6 +13,7 @@ import { Injectable } from '@angular/core';
 export class UserProvider {
 
   requestUrl: string = "https://reboot-ssf.herokuapp.com/api"
+  userName: any = "Maurice";
 
   constructor(public http: HttpClient) {
     console.log('Hello UserProvider Provider');

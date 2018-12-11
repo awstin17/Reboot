@@ -69,6 +69,7 @@ export class LoginPage {
           // }).then(() => {
           //   this.toDashboard()
           // })
+          console.log(res)
           this.loginResponse = res;
           sessionStorage.setItem('userId', this.loginResponse.userId)
           sessionStorage.setItem('token', this.loginResponse.id);
