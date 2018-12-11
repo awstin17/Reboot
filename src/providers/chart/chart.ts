@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class ChartProvider {
 
-  chartHistory: any; // Data for the history page
+  chartHistory: any = []; // Data for the history page
   mostRecentChart: any = [0, 0, 0, 0, 0, 0, 0, 0]; // Data for the chart on the dashboard page
   assessmentChartData: any = [0, 0, 0, 0, 0, 0, 0, 0]; // Range sliders on transition page are ngmodeled to this array
   requestUrl: string = 'https://reboot-ssf.herokuapp.com/api';

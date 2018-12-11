@@ -51,8 +51,11 @@ export class RegisterPage {
     this.submitAttempt = true
     this._userService.sendReg(this.registerUser)
       .subscribe( (data: any) => {
+
         this.storage.remove('userData')
         this.storage.set('userData', data)
+        window.sessionStorage.setItem('userId', data.id)
+        window.sessionStorage.setItem('token', '4aZhPMvAIIcqaFFa74FNQvhWbCpWxrIoC5wUNKjNh34fWpEoC7qeDAtFGkMxzWX3')
         console.log('data from submitReg()', data)
       },
       err => {

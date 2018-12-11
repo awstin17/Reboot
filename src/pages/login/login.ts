@@ -22,16 +22,16 @@ export class LoginPage {
   user: any
   userId: any
 
-  private loginCreds : FormGroup;
+  private loginCreds: FormGroup;
   loginResponse: any;
 
-  constructor(public navCtrl: NavController, 
-              public navParams: NavParams, 
-              public _userService: UserProvider, 
-              private formBuilder: FormBuilder, 
-              private storage: Storage,
-              private chartProvider: ChartProvider,
-              private toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    public _userService: UserProvider,
+    private formBuilder: FormBuilder,
+    private storage: Storage,
+    private chartProvider: ChartProvider,
+    private toastCtrl: ToastController) {
     this.loginCreds = this.formBuilder.group({
       email: ['', Validators.compose([Validators.required,
       Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])],
@@ -96,11 +96,14 @@ export class LoginPage {
     this.chartProvider.getChartHistory()
       .subscribe((res) => {
         this.chartProvider.chartHistory = res;
-        this.chartProvider.chartHistory.reverse(); // Reversing orders array from most recent to least recent chart data
-        this.chartProvider.mostRecentChart = this.chartProvider.chartHistory[0].data;
-        for(let i = 0; i < this.chartProvider.chartHistory.length; i++) {
-          this.chartProvider.chartHistory[i].date = new Date(this.chartProvider.chartHistory[i].date).toDateString();
+        if (this.chartProvider.chartHistory[0]) {
+          this.chartProvider.chartHistory.reverse(); // Reversing orders array from most recent to least recent chart data
+          this.chartProvider.mostRecentChart = this.chartProvider.chartHistory[0].data;
+          for (let i = 0; i < this.chartProvider.chartHistory.length; i++) {
+            this.chartProvider.chartHistory[i].date = new Date(this.chartProvider.chartHistory[i].date).toDateString();
+          }
         }
+        else {}
         this.toDashboard();
       },
         (err) => console.log(err)
@@ -115,7 +118,7 @@ export class LoginPage {
       position: 'middle',
       cssClass: 'toasts'
     });
-  
+
     toast.present();
     this.navCtrl.setRoot(DashboardPage)
   }
