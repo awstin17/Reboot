@@ -59,7 +59,8 @@ export class RegisterPage {
         console.log('data from submitReg()', data)
       },
       err => {
-      console.error('err from register:', err)
+      console.error('err from register:', err);
+      window.alert("This email already has an account or a network error ocurred. Try a different email or try again in a bit.")
       },
       () => {
         this.goWizard()
