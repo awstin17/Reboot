@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController } from 'ionic-angular';
+import { NavController, NavParams, ToastController, PopoverController } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { RegisterPage } from '../register/register';
 import { DashboardPage } from '../dashboard/dashboard';
+import { PopupPage } from '../popup/popup';
 import { UserProvider } from '../../providers/user/user'
 import { Storage } from '@ionic/storage';
 import { ChartProvider } from '../../providers/chart/chart';
@@ -26,6 +27,7 @@ export class LoginPage {
   loginResponse: any;
 
   constructor(public navCtrl: NavController,
+    public popoverCtrl: PopoverController,
     public navParams: NavParams,
     public _userService: UserProvider,
     private formBuilder: FormBuilder,
@@ -37,6 +39,15 @@ export class LoginPage {
       Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])],
       password: ['', Validators.compose([Validators.minLength(6), Validators.maxLength(30), Validators.pattern('[a-zA-Z0-9 ]*'), Validators.required])],
     });
+  }
+
+  ionViewDidLoad() {
+    this.presentPopup();
+  }
+
+  presentPopup() {
+    const popup = this.popoverCtrl.create(PopupPage);
+    popup.present();
   }
 
   /* Right now the flow of login in the function below is as follows:
