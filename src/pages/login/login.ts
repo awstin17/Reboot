@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController, PopoverController } from 'ionic-angular';
-import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { NavController, ToastController, PopoverController } from 'ionic-angular';
+import { Validators, FormBuilder } from '@angular/forms';
 import { RegisterPage } from '../register/register';
 import { DashboardPage } from '../dashboard/dashboard';
 import { PopupPage } from '../popup/popup';
 import { UserProvider } from '../../providers/user/user'
-import { Storage } from '@ionic/storage';
 import { ChartProvider } from '../../providers/chart/chart';
 
 @Component({
@@ -14,24 +14,13 @@ import { ChartProvider } from '../../providers/chart/chart';
 })
 export class LoginPage {
 
-  dummyChart: any = {
-    Date: "10/29/2018",
-    Data: [8, 2, 5, 10, 3, 5, 6, 8]
-  }
-
-  getDummyChart: any
-  user: any
-  userId: any
-
-  private loginCreds: FormGroup;
   loginResponse: any;
+  private loginCreds: any;
 
   constructor(public navCtrl: NavController,
     public popoverCtrl: PopoverController,
-    public navParams: NavParams,
     public _userService: UserProvider,
     private formBuilder: FormBuilder,
-    private storage: Storage,
     private chartProvider: ChartProvider,
     private toastCtrl: ToastController) {
     this.loginCreds = this.formBuilder.group({
@@ -60,43 +49,29 @@ export class LoginPage {
     this._userService.login(this.loginCreds.value)
       .subscribe(
         (res) => {
-          // console.log('res:', res)
-          // this.userId = res.userId
-          // this.storage.remove('userData')
-          // this.storage.remove('chartData')
-          // this.storage.set('userData', res)
-          // this.storage.set('chartData', this.dummyChart)
-          // this.storage.get('chartData').then((val) => {
-          //   this.getDummyChart = val.Data
-          // }).then(() => {
-          //   this._chart.data = this.getDummyChart
-          // }).then(() => {
-          //   this._userService.getUser(this.userId)
-          //     .subscribe(
-          //       (res) => {
-          //         this.storage.set('userInfo', res)
-          //       }
-          //     )
-          // }).then(() => {
-          //   this.toDashboard()
-          // })
-          console.log(res)
           this.loginResponse = res;
-          sessionStorage.setItem('userId', this.loginResponse.userId)
-          sessionStorage.setItem('token', this.loginResponse.id);
-          // alert("you're logged in!")
-          this.getChartData();
+          this.storeUserSessionData();
+          this.getChartData()
         },
         (err) => {
-          let toast = this.toastCtrl.create({
-            message: "Invalid credentials",
-            duration: 2500,
-            position: 'middle'
-          })
-
-          toast.present()
+          this.presentLoginErrorMessage();
         }
       )
+  }
+
+  storeUserSessionData() {
+    sessionStorage.setItem('userId', this.loginResponse.userId)
+    sessionStorage.setItem('token', this.loginResponse.id);
+  }
+
+  presentLoginErrorMessage() {
+    let toast = this.toastCtrl.create({
+      message: "Invalid credentials",
+      duration: 2500,
+      position: 'middle'
+    })
+
+    toast.present()
   }
 
   toRegisterPage() {
@@ -114,15 +89,14 @@ export class LoginPage {
             this.chartProvider.chartHistory[i].date = new Date(this.chartProvider.chartHistory[i].date).toDateString();
           }
         }
-        else {}
-        this.toDashboard();
+        this.goToDashboard();
       },
-        (err) => console.log(err)
+        (err) => {return Promise.resolve(1)}
 
       );
   }
 
-  toDashboard() {
+  goToDashboard() {
     let toast = this.toastCtrl.create({
       message: "Login successful!",
       duration: 2500,
