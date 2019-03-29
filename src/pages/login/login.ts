@@ -64,6 +64,28 @@ export class LoginPage {
     sessionStorage.setItem('token', this.loginResponse.id);
   }
 
+  getChartData() {
+    this.chartProvider.getChartHistory()
+      .subscribe((res) => {
+        this.chartProvider.chartHistory = res;
+        this.formatChartData();
+        this.goToDashboard();
+      },
+        (err) => { }
+
+      );
+  }
+
+  formatChartData() {
+    if (this.chartProvider.chartHistory[0]) {
+      this.chartProvider.chartHistory.reverse(); // Reversing orders array from most recent to least recent chart data
+      this.chartProvider.mostRecentChart = this.chartProvider.chartHistory[0].data;
+      for (let i = 0; i < this.chartProvider.chartHistory.length; i++) {
+        this.chartProvider.chartHistory[i].date = new Date(this.chartProvider.chartHistory[i].date).toDateString();
+      }
+    }
+  }
+
   presentLoginErrorMessage() {
     let toast = this.toastCtrl.create({
       message: "Invalid credentials",
@@ -72,28 +94,6 @@ export class LoginPage {
     })
 
     toast.present()
-  }
-
-  toRegisterPage() {
-    this.navCtrl.push(RegisterPage)
-  }
-
-  getChartData() {
-    this.chartProvider.getChartHistory()
-      .subscribe((res) => {
-        this.chartProvider.chartHistory = res;
-        if (this.chartProvider.chartHistory[0]) {
-          this.chartProvider.chartHistory.reverse(); // Reversing orders array from most recent to least recent chart data
-          this.chartProvider.mostRecentChart = this.chartProvider.chartHistory[0].data;
-          for (let i = 0; i < this.chartProvider.chartHistory.length; i++) {
-            this.chartProvider.chartHistory[i].date = new Date(this.chartProvider.chartHistory[i].date).toDateString();
-          }
-        }
-        this.goToDashboard();
-      },
-        (err) => {return Promise.resolve(1)}
-
-      );
   }
 
   goToDashboard() {
@@ -106,5 +106,9 @@ export class LoginPage {
 
     toast.present();
     this.navCtrl.setRoot(DashboardPage)
+  }
+
+  toRegisterPage() {
+    this.navCtrl.push(RegisterPage)
   }
 }
