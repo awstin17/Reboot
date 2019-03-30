@@ -1,30 +1,26 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-// import { ENV } from '@app/env';
-
 @Injectable()
 export class ChartProvider {
 
+  appUserId: any = sessionStorage.getItem('userId')
   chartHistory: any = []; // Data for the history page
   mostRecentChart: any = [0, 0, 0, 0, 0, 0, 0, 0]; // Data for the chart on the dashboard page
-  assessmentChartData: any = [0, 0, 0, 0, 0, 0, 0, 0]; // Range sliders on transition page are ngmodeled to this array
-  requestUrl: string = 'https://reboot-ssf.herokuapp.com/api';
-
-  postChart: any = {
+  transitionPageChart: any = { // postChart.data is data for chart on transition page
     date: new Date(),
     data: [0, 0, 0, 0, 0, 0, 0, 0],
-    appUserId: window.sessionStorage.getItem("userId")
-  }
+  } 
+
+  requestUrl: string = 'https://reboot-ssf.herokuapp.com/api';
 
   constructor(public http: HttpClient) { }
 
   getChartHistory() {
-    return this.http.get(this.requestUrl + '/appUsers/' + sessionStorage.getItem('userId') + '/charts')
+    return this.http.get(this.requestUrl + '/appUsers/' + this.appUserId + '/charts')
   }
 
   saveChartToProfile() {
-    console.log(this.postChart)
-    return this.http.post(this.requestUrl + "/appUsers/" + sessionStorage.getItem('userId') + "/charts", this.postChart)
+    return this.http.post(this.requestUrl + "/appUsers/" + this.appUserId + "/charts", this.transitionPageChart)
   }
 }

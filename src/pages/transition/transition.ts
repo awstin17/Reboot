@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, NavParams, ToastController } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { ChartComponent } from '../../components/chart/chart';
 import { ChartProvider } from '../../providers/chart/chart';
 
@@ -13,10 +13,9 @@ export class TransitionPage {
   areas: Array<any>;
   date: any
 
-  constructor(public navCtrl: NavController, 
-              public navParams: NavParams, 
-              public chartProvider: ChartProvider, 
-              private toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController,
+    public chartProvider: ChartProvider,
+  ) {
 
     this.areas = [
       {
@@ -80,24 +79,24 @@ export class TransitionPage {
 
   }
 
-  toggleSectionExpand(area) { 
+  toggleSectionExpand(area) {
     // If area.expand is true, set it to false. If area.expand is false, set it to true
     area.expand ? area.expand = false : area.expand = true;
   }
 
   changeData(categoryIndex, newRating) {
-    this.chartProvider.postChart.data[categoryIndex] = newRating;
+    this.chartProvider.transitionPageChart.data[categoryIndex] = newRating;
     this.chartComponent.chart.update();
   }
-  
+
   saveChart() {
     this.chartProvider.saveChartToProfile()
       .subscribe(
         (res) => {
-        this.chartProvider.mostRecentChart = this.chartProvider.postChart.data;
-        this.chartProvider.chartHistory.unshift(this.chartProvider.postChart);
-        alert("Successfully saved to your account")
-      },
+          this.chartProvider.mostRecentChart = this.chartProvider.transitionPageChart.data;
+          this.chartProvider.chartHistory.unshift(this.chartProvider.transitionPageChart);
+          alert("Successfully saved to your account")
+        },
         (err) => alert("An error ocurred. Please try again later")
       )
   }
