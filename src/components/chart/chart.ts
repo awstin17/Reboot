@@ -16,13 +16,8 @@ import 'chartjs-plugin-datalabels';
 export class ChartComponent implements OnInit {
 
   @ViewChild('canvas') canvas;
-
-  /* These @Input variables are essential to being able to customize the charts based on what page is displaying it.
-     When you include a <chart> tag onto any page, you can now include these variables as attributes. For example:
-     <chart [pageData] = "chartProvider.assessmentChartData" [belongsTo] = "transitionPage"></chart>
-  */
   @Input() pageData: any; //All chart data lives on the chart provider file and is passed in with this variable.
-  @Input() belongsTo: any; // Mostly just used to differentiate if the component is on the history page or not.
+  @Input() belongsTo: any; //Just used to display charts differently if they are on the history page 
 
   chart: any;
 
@@ -30,16 +25,8 @@ export class ChartComponent implements OnInit {
 
   /** This comment block is for everything contained in ngOnInit right below it
  *
- Everything above the options property in the chart code relates to the chart data. Everything below that property modifies the display in some way.
- 
- Everything below the plugins property in options relates to the snazzy labels that surround the chart.
-
- The layout.padding property gives room for the snazzy labels.
-
- I have added ternary operators to the options.layout.padding and options.plugins.datalabels.formatter properties.
- This is to make it so if the component belongs to the history page, it displays differently than on the transition 
- and dashboard pages. We don't want to display the labels at all on the history page, so the value of formatter is null
- and the padding is less because we don't need to make room for the datalabels anymore.
+ - Everything above the options property in the chart code relates to the chart data. Everything below that property modifies the display in some way.
+ - Everything below the plugins property in options relates to the snazzy labels that surround the chart.
 
  In plugins.datalabels:
 
@@ -53,8 +40,7 @@ export class ChartComponent implements OnInit {
 
             The "rotation" property is what rotates the labels to match where they are around the graph
             The "BorderRadius property " controls how round the edges of the label containers are.
-            The "Font" and "Offset" functions scale the font and positioning according to the chart's width.
-            The "Formatter" property is what allows us to display the data names and values.
+            The "Font" and "Offset" functions scale the font and positioning of labels respectively, according to the chart's width.
             */
 
   ngOnInit() {
@@ -73,7 +59,7 @@ export class ChartComponent implements OnInit {
       options: {
 
         layout: {
-          padding: {
+          padding: { //This padding changes depending on if chart is on history page or not
             top: this.belongsTo === 'historyPage' ? 5 : 55,
             bottom: this.belongsTo === 'historyPage' ? 5 : 55
           }
@@ -110,11 +96,15 @@ export class ChartComponent implements OnInit {
                 font: 'Lato'
               };
             },
-            formatter: this.belongsTo === 'historyPage' ?
-                function (value, context) { return null }
+            /* The formatter function's return is what becomes the label for each section of the chart
+            If the chart is on the history page, there are no labels. If not, the labels are the area name
+             and its rating */
+            formatter: this.belongsTo === 'historyPage' ? function () { return null }
               : function (value, context) {
-                return (context.chart.data.labels[context.dataIndex] + ' ' + context.chart.data.datasets[0].data[context.dataIndex]);
-               }
+                let areaName = context.chart.data.labels[context.dataIndex];
+                let areaRating = context.chart.data.datasets[0].data[context.dataIndex];
+                return (areaName + ' ' + areaRating);
+              }
           }
         }
       }

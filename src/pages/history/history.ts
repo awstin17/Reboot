@@ -9,6 +9,8 @@ import { ChartProvider } from '../../providers/chart/chart';
 })
 export class HistoryPage {
 
+  historyPage: any = "historyPage"
+
   constructor(public chartProvider: ChartProvider) {}
 
 }
