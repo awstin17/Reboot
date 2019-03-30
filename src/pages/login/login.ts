@@ -62,6 +62,7 @@ export class LoginPage {
   storeUserSessionData() {
     sessionStorage.setItem('userId', this.loginResponse.userId)
     sessionStorage.setItem('token', this.loginResponse.id);
+    this.chartProvider.appUserId = sessionStorage.getItem('userId');
   }
 
   getChartData() {

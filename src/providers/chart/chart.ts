@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class ChartProvider {
 
-  appUserId: any = sessionStorage.getItem('userId')
+  appUserId: any;
   chartHistory: any = []; // Data for the history page
   mostRecentChart: any = [0, 0, 0, 0, 0, 0, 0, 0]; // Data for the chart on the dashboard page
   transitionPageChart: any = { // postChart.data is data for chart on transition page

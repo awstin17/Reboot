@@ -1,14 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-import { UserProvider } from '../../providers/user/user';
+import { NavController } from 'ionic-angular';
 import { LoginPage } from '../login/login';
-
-/**
- * Generated class for the ProfilePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { ChartProvider } from '../../providers/chart/chart';
 
 @Component({
   selector: 'page-profile',
@@ -16,16 +9,21 @@ import { LoginPage } from '../login/login';
 })
 export class ProfilePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public user :UserProvider) {
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ProfilePage');
-  }
+  constructor(public navCtrl: NavController, public chartProvider: ChartProvider) { }
 
   onLogout() {
     window.sessionStorage.clear();
+    this.clearChartData();
     this.navCtrl.setRoot(LoginPage)
+  }
+
+  clearChartData() {
+    this.chartProvider.chartHistory = []; // Data for the history page
+    this.chartProvider.mostRecentChart = [0, 0, 0, 0, 0, 0, 0, 0]; // Data for the chart on the dashboard page
+    this.chartProvider.transitionPageChart = { // postChart.data is data for chart on transition page
+      date: new Date(),
+      data: [0, 0, 0, 0, 0, 0, 0, 0],
+    }
   }
 
 }
