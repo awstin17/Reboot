@@ -9,31 +9,38 @@
 
 
 <ion-content padding>
-  <chart [pageData] = "chartProvider.postChart.data"></chart>
+  <chart [pageData]="chartProvider.postChart.data"></chart>
   <ion-list>
-    <ion-card *ngFor="let area of areas; let i = index">
+    <ion-card *ngFor="let area of areas; let areaIndex = index">
+
       <ion-card-header>
         <div id="categoryAndView">
           <h1 id="category">{{area.title}}</h1>
-          <button id="viewButton" (click)="toggleSection(area)">View</button>
+          <button id="viewButton" (click)="toggleSectionExpand(area)">View</button>
         </div>
       </ion-card-header>
+
       <ion-card-content id="areaDescription">
         <span> {{area.intro}} </span>
-        <span *ngIf="!area.expand; else content"> ... </span>
-        <ng-template #content> {{ area.description }} </ng-template><br><br>
+        <!-- If area.expand is false, display this first span; if area.expand is true, display ng-template (moreInfo) -->
+        <span *ngIf="!area.expand; else moreInfo"> ... </span>
+        <ng-template #moreInfo> {{ area.description }} </ng-template>
+        <br><br>
         <div id="range">
           <p text-center id="instructions"> DRAG SLIDER TO RATE FROM 0 - 10
             HOW WELL YOU ARE DOING IN "{{area.title | uppercase}}" </p>
-          <ion-range pin="true" min="0" max="10" step="1" snaps="true" [(ngModel)]="area.number" (ionChange)="changeData(i, area.number)">
+          <ion-range pin="true" min="0" max="10" step="1" snaps="true" [(ngModel)]="area.number"
+            (ionChange)="changeData(areaIndex, area.number)">
             <ion-label class="rangeLabels" range-left>0</ion-label>
             <ion-label class="rangeLabels" range-right>10</ion-label>
           </ion-range>
         </div>
       </ion-card-content>
+
     </ion-card>
   </ion-list>
   <div style="width: 100%">
-  <button ion-button button-primary (click)="saveChart()" style="width: 50%; margin: auto; display: block; font-size: 2rem">Save This Chart To Your Profile</button>
-</div>
+    <button ion-button button-primary (click)="saveChart()"
+      style="width: 50%; margin: auto; display: block; font-size: 2rem">Save This Chart To Your Profile</button>
+  </div>
 </ion-content>

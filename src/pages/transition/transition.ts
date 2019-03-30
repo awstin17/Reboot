@@ -2,14 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { ChartComponent } from '../../components/chart/chart';
 import { ChartProvider } from '../../providers/chart/chart';
-import { Storage } from '@ionic/storage'
-
-/**
- * Generated class for the TransitionPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @Component({
   selector: 'page-transition',
@@ -24,7 +16,6 @@ export class TransitionPage {
   constructor(public navCtrl: NavController, 
               public navParams: NavParams, 
               public chartProvider: ChartProvider, 
-              private storage: Storage, 
               private toastCtrl: ToastController) {
 
     this.areas = [
@@ -89,46 +80,25 @@ export class TransitionPage {
 
   }
 
-  // ionViewWillLoad() {
-  //   this.storage.get('chartData').then((val) => {
-  //     this.date = val ? val.Date : '';
-  //     // console.log('this.date:', this.date, 'val.Date:', val.Date)
-  //   }).then(() => this.lastDate())
-  // }
-
-  toggleSection(area) {
-    console.log(area);
-    if (area.expand) {
-      area.expand = false;
-    } else {
-      area.expand = true;
-    }
+  toggleSectionExpand(area) { 
+    // If area.expand is true, set it to false. If area.expand is false, set it to true
+    area.expand ? area.expand = false : area.expand = true;
   }
 
-  changeData(categoryIndex, newNumber) {
-    this.chartProvider.postChart.data[categoryIndex] = newNumber;
+  changeData(categoryIndex, newRating) {
+    this.chartProvider.postChart.data[categoryIndex] = newRating;
     this.chartComponent.chart.update();
   }
-
-  lastDate() {
-    let toast = this.toastCtrl.create({
-      message: `Your last assessment was ${this.date}`,
-      duration: 2500,
-      position: 'middle'
-    });
-
-    toast.present();
-  }
-
+  
   saveChart() {
     this.chartProvider.saveChartToProfile()
       .subscribe(
-        (res) => {console.log(res, "success")
+        (res) => {
         this.chartProvider.mostRecentChart = this.chartProvider.postChart.data;
         this.chartProvider.chartHistory.unshift(this.chartProvider.postChart);
         alert("Successfully saved to your account")
       },
-        (err) => console.log(err, "failure")
+        (err) => alert("An error ocurred. Please try again later")
       )
   }
 }
