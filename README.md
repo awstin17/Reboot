@@ -1,6 +1,6 @@
 # Reboot
 
-Reboot is an ionic application that assists verterans reintegrate into civilian life by assisting them and providing information and resources along the way. 
+Reboot is an ionic application that assists veterans reintegrating into civilian life by assisting them and providing information and resources along the way. 
 
 ## Getting Started
 
